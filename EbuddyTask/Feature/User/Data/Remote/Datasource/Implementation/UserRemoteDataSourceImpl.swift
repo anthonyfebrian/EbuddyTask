@@ -7,6 +7,7 @@
 
 import FirebaseFirestore
 import Foundation
+import FirebaseStorage
 
 class UserRemoteDataSourceImpl: UserRemoteDataSource {
     private let COLLECTION_NAME = "USERS"
@@ -24,6 +25,20 @@ class UserRemoteDataSourceImpl: UserRemoteDataSource {
             return .success(usersJson)
         } catch {
             print("Error getting getUsers: \(error)")
+            return .failed(error.localizedDescription)
+        }
+    }
+    
+    func uploadPhoto(uid:String, url: URL) async -> Resource<Void> {
+        let storage = Storage.storage()
+        let storageRef = storage.reference()
+        let userRef = storageRef.child("USERS/\(uid).jpg")
+        
+        do {
+            let storageMetaData = try await userRef.putFileAsync(from: url)
+            return .success(())
+        } catch {
+            print("Error getting uploadPhoto: \(error)")
             return .failed(error.localizedDescription)
         }
     }
