@@ -13,7 +13,7 @@ struct EbuddyTaskApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ListUserScreen()
         }
     }
 }

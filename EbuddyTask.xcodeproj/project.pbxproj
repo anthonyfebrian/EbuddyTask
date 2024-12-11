@@ -13,6 +13,7 @@
 		D697F09A2D09AC15008DC224 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = D697F0992D09AC15008DC224 /* FirebaseStorage */; };
 		D697F0C32D09B57B008DC224 /* Development.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = D697F0C22D09B57B008DC224 /* Development.xcconfig */; };
 		D697F0C52D09B5DA008DC224 /* Staging.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = D697F0C42D09B5DA008DC224 /* Staging.xcconfig */; };
+		D697F1062D09D064008DC224 /* Factory in Frameworks */ = {isa = PBXBuildFile; productRef = D697F1052D09D064008DC224 /* Factory */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D697F0962D09AC15008DC224 /* FirebaseCore in Frameworks */,
+				D697F1062D09D064008DC224 /* Factory in Frameworks */,
 				D697F09A2D09AC15008DC224 /* FirebaseStorage in Frameworks */,
 				D697F0942D09AC15008DC224 /* FirebaseAuth in Frameworks */,
 				D697F0982D09AC15008DC224 /* FirebaseFirestore in Frameworks */,
@@ -86,6 +88,7 @@
 				D697F0952D09AC15008DC224 /* FirebaseCore */,
 				D697F0972D09AC15008DC224 /* FirebaseFirestore */,
 				D697F0992D09AC15008DC224 /* FirebaseStorage */,
+				D697F1052D09D064008DC224 /* Factory */,
 			);
 			productName = EbuddyTask;
 			productReference = D697F0782D09AAD2008DC224 /* EbuddyTask.app */;
@@ -117,6 +120,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				D697F0922D09AC15008DC224 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				D697F1042D09D063008DC224 /* XCRemoteSwiftPackageReference "Factory" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = D697F0792D09AAD2008DC224 /* Products */;
@@ -545,6 +549,14 @@
 				minimumVersion = 11.6.0;
 			};
 		};
+		D697F1042D09D063008DC224 /* XCRemoteSwiftPackageReference "Factory" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hmlongco/Factory";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.4.3;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -567,6 +579,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D697F0922D09AC15008DC224 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
+		};
+		D697F1052D09D064008DC224 /* Factory */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D697F1042D09D063008DC224 /* XCRemoteSwiftPackageReference "Factory" */;
+			productName = Factory;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
