@@ -14,6 +14,7 @@ struct EbuddyTaskApp: App {
     var body: some Scene {
         WindowGroup {
             ListUserScreen()
+                .environmentObject(UserObs())
         }
     }
 }

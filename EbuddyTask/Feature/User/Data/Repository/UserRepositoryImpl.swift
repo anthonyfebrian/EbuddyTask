@@ -34,4 +34,19 @@ class UserRepositoryImpl: UserRepository {
         
         return subject.eraseToAnyPublisher()
     }
+    
+    func getRealtimeUsers() -> AnyPublisher<[User], Never> {
+        let temp = remoteDataSource
+            .getRealtimeUsers()
+            .map {
+                $0.filter({$0.uid != nil})
+                    .map {
+                        $0.toDomain()
+                    }
+            }
+            .eraseToAnyPublisher()
+        
+        
+        return temp
+    }
 }

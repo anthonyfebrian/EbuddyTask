@@ -9,44 +9,27 @@ import Factory
 import SwiftUI
 
 struct ListUserScreen: View {
-    @StateObject private var vm:ListUserViewModel = Container.shared.listUserViewModel()
+    @EnvironmentObject private var userObs:UserObs
     
     var body: some View {
-        ListUserContent(uiState: vm.uiState)
-            .onAppear {
-                vm.getUser()
-            }
+        ListUserContent(users: userObs.users)
     }
 }
 
 private struct ListUserContent:View {
-    private let uiState:ListUserUiState
-    init(uiState: ListUserUiState) {
-        self.uiState = uiState
+    private let users:[User]
+    
+    init(users:[User]) {
+        self.users = users
     }
     var body: some View {
-        switch uiState {
-        case .loading:
-            ProgressView()
-        case .success(let users):
-            List(users) {
-                UserView(user: $0)
-            }
-        case .failed(let message):
-            Text(message)
-                .foregroundColor(Color.red)
+        List(users) {
+            UserView(user: $0)
         }
     }
 }
 
-#Preview("Loading") {
-    ListUserContent(uiState: .loading)
-}
 
 #Preview("Success") {
-    ListUserContent(uiState: .success([]))
-}
-
-#Preview("Failed") {
-    ListUserContent(uiState: .failed("Failed"))
+    ListUserContent(users: [User(id: "UID", email: "Email", phoneNumber: "08123456789", gender: .male)])
 }

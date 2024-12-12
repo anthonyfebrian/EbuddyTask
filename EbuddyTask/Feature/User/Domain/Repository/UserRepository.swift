@@ -10,4 +10,6 @@ import Foundation
 
 protocol UserRepository {
     func getUsers() -> AnyPublisher<Result<[User]>, Never>
+    
+    func getRealtimeUsers() -> AnyPublisher<[User], Never>
 }
