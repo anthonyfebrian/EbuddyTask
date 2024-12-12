@@ -9,7 +9,7 @@ import Combine
 import Foundation
 
 protocol UserRemoteDataSource {
-    func getUsers() async -> Resource<[UserJSON]>
+    func getUsers(filter:[Filter], order:[Order]) async -> Resource<[UserJSON]>
     
     func getRealtimeUsers() -> AnyPublisher<[UserJSON], Never>
     

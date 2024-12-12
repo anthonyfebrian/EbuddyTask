@@ -14,9 +14,22 @@ class UserRemoteDataSourceImpl: UserRemoteDataSource {
     private let COLLECTION_NAME = "USERS"
     private let db = Firestore.firestore()
     
-    func getUsers() async -> Resource<[UserJSON]> {
+    func getUsers(filter:[Filter], order:[Order]) async -> Resource<[UserJSON]> {
         do {
-            let usersJson = try await db.collection(COLLECTION_NAME)
+            var query:Query = db.collection(COLLECTION_NAME)
+            
+            print("Filter : \(filter)")
+            print("Order : \(order)")
+            
+            filter.forEach {
+                query = query.whereField($0.field, isEqualTo: $0.value)
+            }
+            
+            order.forEach {
+                query = query.order(by: $0.field, descending: $0.descending)
+            }
+            
+            let usersJson = try await query
                 .getDocuments()
                 .documents
                 .map {
@@ -52,6 +65,30 @@ class UserRemoteDataSourceImpl: UserRemoteDataSource {
             }
         
         return subject.eraseToAnyPublisher()
+    }
+    
+    func getGetActiveFemaleUsers() async -> Resource<[UserJSON]> {
+        do {
+            let query = db.collection(COLLECTION_NAME)
+                .whereField("ge", isEqualTo: GenderEnum.female)
+                .order(by: "active", descending: true)
+                .order(by: "rating", descending: true)
+                .order(by: "price", descending: false)
+            
+            
+            
+            let usersJson = try await db.collection(COLLECTION_NAME)
+                .getDocuments()
+                .documents
+                .map {
+                    try $0.data(as: UserJSON.self)
+                }
+            
+            return .success(usersJson)
+        } catch {
+            print("Error getting getUsers: \(error)")
+            return .failed(error.localizedDescription)
+        }
     }
     
     func uploadPhoto(uid:String, url: URL) async -> Resource<Void> {

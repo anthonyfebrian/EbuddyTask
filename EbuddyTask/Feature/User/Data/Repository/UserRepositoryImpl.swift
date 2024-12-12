@@ -19,7 +19,36 @@ class UserRepositoryImpl: UserRepository {
         let subject = PassthroughSubject<Result<[User]>, Never>()
         
         Task {
-            let resource = await remoteDataSource.getUsers()
+            let resource = await remoteDataSource.getUsers(filter: [], order: [])
+            switch resource {
+            case .success(let usersJson):
+                subject.send(.success(
+                    usersJson
+                        .filter({$0.uid != nil})
+                        .map { $0.toDomain() }
+                ))
+            case .failed(let message):
+                subject.send(.failed(message))
+            }
+        }
+        
+        return subject.eraseToAnyPublisher()
+    }
+    
+    func fetchRecentlyActiveFemaleUsersWithHighestRatingAndLowestPrice() -> AnyPublisher<Result<[User]>, Never> {
+        let subject = PassthroughSubject<Result<[User]>, Never>()
+        
+        Task {
+            let filter = [
+                Filter(field: "ge", value: GenderEnum.female.rawValue)
+            ]
+            let order = [
+                Order(field: "active", descending: true),
+                Order(field: "rating", descending: true),
+                Order(field: "price", descending: false)
+            ]
+            
+            let resource = await remoteDataSource.getUsers(filter: filter, order: order)
             switch resource {
             case .success(let usersJson):
                 subject.send(.success(
