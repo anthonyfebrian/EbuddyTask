@@ -23,7 +23,7 @@ struct UserView: View {
         }
         .padding()
         .frame(maxWidth: .infinity, alignment: .leading)
-        .border(.black)
+        .border(Color("Border"))
         .padding()
     }
 }
